@@ -1,0 +1,53 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.70.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 e948e4c574839eed9ac17f5c26238543cf9b82b5 Changes
+SHA1 d6f40052977ed857db521538f149bab6c876a79f LICENSE
+SHA1 00d2b402cae90e31639d9ccf35c37cf97223586f MANIFEST
+SHA1 6bbcafbee27588d2f4a3f8c398d7e310878f04e5 META.yml
+SHA1 358add23d8eb6b8fec6b9f0ae3b10e80e9f568e3 Makefile.PL
+SHA1 45d18f766bdc35907cb39bb53613d5a24efd2a05 README
+SHA1 03ca269599f09172f70c845a5396d925e3c74987 Text.pm
+SHA1 70cf08022a2db9b381f79ad55b274cf7ebb6eaaf examples/ex1.pl
+SHA1 379173c00ef2fa33d9d919c8f4cc0163ad78e1bd examples/ex2.pl
+SHA1 863fa93d32b975836942c718be8b953d19c55724 examples/ex3.pl
+SHA1 9b5001bfa9cf8607b3b3935284d9253e0391c9f1 inc/Module/Install.pm
+SHA1 cab0e564f9bdf658535f683aa197157e06d0dcea inc/Module/Install/Base.pm
+SHA1 a1559b5b3b40f68efbbd256f4fef85970891b3ae inc/Module/Install/Can.pm
+SHA1 f15c1ba85f6d52e70c48c64bf0752c90a4ad66f9 inc/Module/Install/Fetch.pm
+SHA1 eb48df8bafd07c6a862126d9b274df42b4395742 inc/Module/Install/Makefile.pm
+SHA1 95c73873c6c3cb7024614c225c53863e1e90c134 inc/Module/Install/Metadata.pm
+SHA1 79f5b4199f622e8b05aac266b0c39f6a85bb303f inc/Module/Install/ReadmeFromPod.pm
+SHA1 f8b2ae3386f6ba26c33408968a953d450842eade inc/Module/Install/Win32.pm
+SHA1 f302bc703d76299cff243e5b44cecd61aac27b76 inc/Module/Install/WriteAll.pm
+SHA1 05c2538d24f12cc06180e04a25cc796fa67a4e2a t/Error-Pure-Output-Text/00-use.t
+SHA1 df88c2a98610a1ea8a46bb6b291761e161771557 t/Error-Pure-Output-Text/01-version.t
+SHA1 764f776bc8fc0df5b598be5fdb7899e666396f99 t/Error-Pure-Output-Text/02-pod_coverage.t
+SHA1 024ab9a94b7cb51f09973be994eb1122e91a40ed t/Error-Pure-Output-Text/03-pod.t
+SHA1 d6232b568062812d923a5b2d2efd9145e4fd5637 t/Error-Pure-Output-Text/04-err_bt_pretty.t
+SHA1 c6814efbcb55cc5c9b0d764048483282883f5e06 t/Error-Pure-Output-Text/05-err_line.t
+SHA1 956aa333e6d404f77f735ec13f91a00db51a370d t/Error-Pure-Output-Text/06-err_line_all.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJUNmbyAAoJEAwa+cf4dLBaK/4IAM5bcaRsRq/AKzOq0sYUydP7
+hsCrL8lMuAthzmOlQles2B+TLi/BROlefAwyckoKU4LUyCns3S0C8jH/f2UPqvq4
+6nSQdh91FiyAFtlG2Vsyk3QFCv8Ov3cvtfTj8rLI4b5hEbzgBsgPm2GP96/iad94
+qrxKmV2qMYt505w/gX613aHbP92aVZdZqMnKfdrginlunLeop4F+HI2eqopiQJvx
+CqmiraLNaHm+0qfmN42V79aWv28WCuGHFt1EL5AAsV/3OEVNNYh3uk1fTiXC9JGP
+KVL9i6YMkdZbz8zohL1zgd+DRfw8S1ITTM7ib5uk2X0b4oZLBd4Yobj4afE1jU8=
+=Ek7d
+-----END PGP SIGNATURE-----

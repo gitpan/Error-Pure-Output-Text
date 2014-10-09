@@ -4,7 +4,7 @@ use warnings;
 
 # Modules.
 use Error::Pure::Output::Text qw(err_bt_pretty);
-use Test::More 'tests' => 5;
+use Test::More 'tests' => 6;
 use Test::NoWarnings;
 
 # Test.
@@ -142,3 +142,29 @@ main  err  ./example.pl  12
 END
 $ret = err_bt_pretty(@errors);
 is($ret, $right_ret, 'Backtrace print in different key=value pairs.');
+
+# Test.
+@errors = (
+	{
+		'msg' => [
+			"This is error.\n",
+			'Error', "Error message.\n",
+		],
+		'stack' => [
+			{
+				'args' => '(\'Error.\')',
+				'class' => 'main',
+				'line' => '12',
+				'prog' => './example.pl',
+				'sub' => 'err',	
+			},
+		],
+	},
+);
+$right_ret = <<"END";
+ERROR: This is error.
+Error: Error message.
+main  err  ./example.pl  12
+END
+$ret = err_bt_pretty(@errors);
+is($ret, $right_ret, 'Backtrace print in simple error with newlines.');

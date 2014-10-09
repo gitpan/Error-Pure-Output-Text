@@ -9,11 +9,11 @@ use warnings;
 use Readonly;
 
 # Constants.
-Readonly::Array our @EXPORT_OK => qw(err_bt_pretty err_line err_line_all);
+Readonly::Array our @EXPORT_OK => qw(err_bt_pretty err_bt_pretty_rev err_line err_line_all);
 Readonly::Scalar my $SPACE => q{ };
 
 # Version.
-our $VERSION = 0.17;
+our $VERSION = 0.18;
 
 # Pretty print of backtrace.
 sub err_bt_pretty {
@@ -21,38 +21,23 @@ sub err_bt_pretty {
 	my @ret;
 	my $l_ar = _lenghts(@errors);
 	foreach my $error_hr (@errors) {
-		my @msg = @{$error_hr->{'msg'}};
-		my $e = shift @msg;
-		chomp $e;
-		push @ret, 'ERROR: '.$e;
-		while (@msg) {
-			my $f = shift @msg;
-			my $t = shift @msg;
-
-			if (! defined $f) {
-				last;
-			}
-			my $ret = $f;
-			if (defined $t) {
-				$ret .= ': '.$t;
-			}
-			push @ret, $ret;
-		}
-		foreach my $i (0 .. $#{$error_hr->{'stack'}}) {
-			my $st = $error_hr->{'stack'}->[$i];
-			my $ret = $st->{'class'};
-			$ret .=  $SPACE x ($l_ar->[0] - length $st->{'class'});
-			$ret .=  $st->{'sub'};
-			$ret .=  $SPACE x ($l_ar->[1] - length $st->{'sub'});
-			$ret .=  $st->{'prog'};
-			$ret .=  $SPACE x ($l_ar->[2] - length $st->{'prog'});
-			$ret .=  $st->{'line'};
-			push @ret, $ret;
-		}
+		push @ret, _bt_pretty_one($error_hr, $l_ar);
 	}
 	return wantarray ? @ret : (join "\n", @ret)."\n";
 }
 
+# Reverse pretty print of backtrace.
+sub err_bt_pretty_rev {
+	my @errors = @_;
+	my @ret;
+	my $l_ar = _lenghts(@errors);
+	foreach my $error_hr (reverse @errors) {
+		push @ret, _bt_pretty_one($error_hr, $l_ar);
+	}
+	return wantarray ? @ret : (join "\n", @ret)."\n";
+}
+
+# Pretty print with errors each on one line.
 sub err_line_all {
 	my @errors = @_;
 	my $ret;
@@ -66,6 +51,41 @@ sub err_line_all {
 sub err_line {
 	my @errors = @_;
 	return _err_line($errors[-1]);
+}
+
+# Pretty print one error backtrace helper.
+sub _bt_pretty_one {
+	my ($error_hr, $l_ar) = @_;
+	my @ret;
+	my @msg = @{$error_hr->{'msg'}};
+	my $e = shift @msg;
+	chomp $e;
+	push @ret, 'ERROR: '.$e;
+	while (@msg) {
+		my $f = shift @msg;
+		my $t = shift @msg;
+
+		if (! defined $f) {
+			last;
+		}
+		my $ret = $f;
+		if (defined $t) {
+			$ret .= ': '.$t;
+		}
+		push @ret, $ret;
+	}
+	foreach my $i (0 .. $#{$error_hr->{'stack'}}) {
+		my $st = $error_hr->{'stack'}->[$i];
+		my $ret = $st->{'class'};
+		$ret .=  $SPACE x ($l_ar->[0] - length $st->{'class'});
+		$ret .=  $st->{'sub'};
+		$ret .=  $SPACE x ($l_ar->[1] - length $st->{'sub'});
+		$ret .=  $st->{'prog'};
+		$ret .=  $SPACE x ($l_ar->[2] - length $st->{'prog'});
+		$ret .=  $st->{'line'};
+		push @ret, $ret;
+	}
+	return @ret;
 }
 
 # Gets length for errors.
@@ -117,8 +137,9 @@ Error::Pure::Output::Text - Output subroutines for Error::Pure.
 
 =head1 SYNOPSIS
 
- use Error::Pure::Output::Text qw(err_bt_pretty err_line err_line_all);
+ use Error::Pure::Output::Text qw(err_bt_pretty err_bt_pretty_rev err_line err_line_all);
  print err_bt_pretty(@errors);
+ print err_bt_pretty_rev(@errors);
  print err_line_all(@errors);
  print err_line(@errors);
 
@@ -128,6 +149,23 @@ Error::Pure::Output::Text - Output subroutines for Error::Pure.
 
 =item C<err_bt_pretty(@errors)>
 
+ Returns string with full backtrace in scalar context.
+ Returns array of full backtrace lines in array context.
+ Format of error is:
+         ERROR: %s
+         %s: %s
+         ...
+         %s %s %s %s
+         ...
+ Values of error are:
+         message
+         message as key, $message as value
+         ...
+         sub, caller, program, line
+
+=item C<err_bt_pretty_rev(@errors)>
+
+ Reverse version of print for err_bt_pretty().
  Returns string with full backtrace in scalar context.
  Returns array of full backtrace lines in array context.
  Format of error is:
@@ -157,10 +195,6 @@ Error::Pure::Output::Text - Output subroutines for Error::Pure.
  Values of error are: $program, $line, $message
 
 =back
-
-=head1 ERRORS
-
- None.
 
 =head1 EXAMPLE1
 
@@ -294,6 +328,118 @@ Error::Pure::Output::Text - Output subroutines for Error::Pure.
  # Output:
  # #Error [script.pl:1] FOO
 
+=head1 EXAMPLE4
+
+ # Pragmas.
+ use strict;
+ use warnings;
+
+ # Modules.
+ use Error::Pure::Output::Text qw(err_bt_pretty);
+
+ # Fictional error structure.
+ my @err = (
+         {
+                 'msg' => [
+                         'FOO',
+                         'BAR',
+                 ],
+                 'stack' => [
+                         {
+                                 'args' => '(2)',
+                                 'class' => 'main',
+                                 'line' => 1,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'err',
+                         }, {
+                                 'args' => '',
+                                 'class' => 'main',
+                                 'line' => 20,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'eval {...}',
+                         }
+                 ],
+         }, {
+                 'msg' => ['XXX'],
+                 'stack' => [
+                         {
+                                 'args' => '',
+                                 'class' => 'main',
+                                 'line' => 2,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'err',
+                         },
+                 ],
+         }
+ );
+
+ # Print out.
+ print scalar err_bt_pretty(@err);
+
+ # Output:
+ # ERROR: FOO
+ # BAR
+ # main  err         script.pl  1
+ # main  eval {...}  script.pl  20
+ # ERROR: XXX
+ # main  err         script.pl  2
+
+=head1 EXAMPLE5
+
+ # Pragmas.
+ use strict;
+ use warnings;
+
+ # Modules.
+ use Error::Pure::Output::Text qw(err_bt_pretty_rev);
+
+ # Fictional error structure.
+ my @err = (
+         {
+                 'msg' => [
+                         'FOO',
+                         'BAR',
+                 ],
+                 'stack' => [
+                         {
+                                 'args' => '(2)',
+                                 'class' => 'main',
+                                 'line' => 1,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'err',
+                         }, {
+                                 'args' => '',
+                                 'class' => 'main',
+                                 'line' => 20,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'eval {...}',
+                         }
+                 ],
+         }, {
+                 'msg' => ['XXX'],
+                 'stack' => [
+                         {
+                                 'args' => '',
+                                 'class' => 'main',
+                                 'line' => 2,
+                                 'prog' => 'script.pl',
+                                 'sub' => 'err',
+                         },
+                 ],
+         }
+ );
+
+ # Print out.
+ print scalar err_bt_pretty_rev(@err);
+
+ # Output:
+ # ERROR: XXX
+ # main  err         script.pl  2
+ # ERROR: FOO
+ # BAR
+ # main  err         script.pl  1
+ # main  eval {...}  script.pl  20
+
 =head1 DEPENDENCIES
 
 L<Exporter>,
@@ -311,7 +457,7 @@ L<Error::Pure::Utils>,
 
 =head1 REPOSITORY
 
-L<https://github.com/tupinek/Error-Pure>
+L<https://github.com/tupinek/Error-Pure-Output-Text>
 
 =head1 AUTHOR
 
@@ -325,6 +471,6 @@ BSD 2-Clause License
 
 =head1 VERSION
 
-0.17
+0.18
 
 =cut

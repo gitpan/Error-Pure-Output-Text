@@ -1,2 +1,8 @@
+0.18 2014-10-09T13:10:29+02:00
+ - Add EXAMPLE4 to doc.
+ - Add err_bt_pretty_rev() subroutine.
+ - Fix REPOSITORY section in doc.
+ - Remove blank ERRORS section in doc.
+
 0.17 2014-10-09T12:43:52+02:00
  - Move from Error::Pure distribution.

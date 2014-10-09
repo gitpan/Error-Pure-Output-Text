@@ -2,13 +2,30 @@ NAME
     Error::Pure::Output::Text - Output subroutines for Error::Pure.
 
 SYNOPSIS
-     use Error::Pure::Output::Text qw(err_bt_pretty err_line err_line_all);
+     use Error::Pure::Output::Text qw(err_bt_pretty err_bt_pretty_rev err_line err_line_all);
      print err_bt_pretty(@errors);
+     print err_bt_pretty_rev(@errors);
      print err_line_all(@errors);
      print err_line(@errors);
 
 SUBROUTINES
     "err_bt_pretty(@errors)"
+             Returns string with full backtrace in scalar context.
+             Returns array of full backtrace lines in array context.
+             Format of error is:
+                     ERROR: %s
+                     %s: %s
+                     ...
+                     %s %s %s %s
+                     ...
+             Values of error are:
+                     message
+                     message as key, $message as value
+                     ...
+                     sub, caller, program, line
+
+    "err_bt_pretty_rev(@errors)"
+             Reverse version of print for err_bt_pretty().
              Returns string with full backtrace in scalar context.
              Returns array of full backtrace lines in array context.
              Format of error is:
@@ -34,9 +51,6 @@ SUBROUTINES
              Use last error in @errors structure..
              Format of error is: "#Error [%s:%s] %s\n"
              Values of error are: $program, $line, $message
-
-ERRORS
-     None.
 
 EXAMPLE1
      # Pragmas.
@@ -167,6 +181,116 @@ EXAMPLE3
      # Output:
      # #Error [script.pl:1] FOO
 
+EXAMPLE4
+     # Pragmas.
+     use strict;
+     use warnings;
+
+     # Modules.
+     use Error::Pure::Output::Text qw(err_bt_pretty);
+
+     # Fictional error structure.
+     my @err = (
+             {
+                     'msg' => [
+                             'FOO',
+                             'BAR',
+                     ],
+                     'stack' => [
+                             {
+                                     'args' => '(2)',
+                                     'class' => 'main',
+                                     'line' => 1,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'err',
+                             }, {
+                                     'args' => '',
+                                     'class' => 'main',
+                                     'line' => 20,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'eval {...}',
+                             }
+                     ],
+             }, {
+                     'msg' => ['XXX'],
+                     'stack' => [
+                             {
+                                     'args' => '',
+                                     'class' => 'main',
+                                     'line' => 2,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'err',
+                             },
+                     ],
+             }
+     );
+
+     # Print out.
+     print scalar err_bt_pretty(@err);
+
+     # Output:
+     # ERROR: FOO
+     # BAR
+     # main  err         script.pl  1
+     # main  eval {...}  script.pl  20
+     # ERROR: XXX
+     # main  err         script.pl  2
+
+EXAMPLE5
+     # Pragmas.
+     use strict;
+     use warnings;
+
+     # Modules.
+     use Error::Pure::Output::Text qw(err_bt_pretty_rev);
+
+     # Fictional error structure.
+     my @err = (
+             {
+                     'msg' => [
+                             'FOO',
+                             'BAR',
+                     ],
+                     'stack' => [
+                             {
+                                     'args' => '(2)',
+                                     'class' => 'main',
+                                     'line' => 1,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'err',
+                             }, {
+                                     'args' => '',
+                                     'class' => 'main',
+                                     'line' => 20,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'eval {...}',
+                             }
+                     ],
+             }, {
+                     'msg' => ['XXX'],
+                     'stack' => [
+                             {
+                                     'args' => '',
+                                     'class' => 'main',
+                                     'line' => 2,
+                                     'prog' => 'script.pl',
+                                     'sub' => 'err',
+                             },
+                     ],
+             }
+     );
+
+     # Print out.
+     print scalar err_bt_pretty_rev(@err);
+
+     # Output:
+     # ERROR: XXX
+     # main  err         script.pl  2
+     # ERROR: FOO
+     # BAR
+     # main  err         script.pl  1
+     # main  eval {...}  script.pl  20
+
 DEPENDENCIES
     Exporter, Readonly.
 
@@ -176,7 +300,7 @@ SEE ALSO
     Error::Pure::Utils,
 
 REPOSITORY
-    <https://github.com/tupinek/Error-Pure>
+    <https://github.com/tupinek/Error-Pure-Output-Text>
 
 AUTHOR
     Michal Špaček <mailto:skim@cpan.org>
@@ -187,5 +311,5 @@ LICENSE AND COPYRIGHT
     BSD 2-Clause License
 
 VERSION
-    0.17
+    0.18
 

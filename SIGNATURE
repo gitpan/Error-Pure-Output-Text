@@ -14,16 +14,18 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 e948e4c574839eed9ac17f5c26238543cf9b82b5 Changes
+SHA1 cf24e20237ff49aeaaa984d991282a4cfd8581d7 Changes
 SHA1 d6f40052977ed857db521538f149bab6c876a79f LICENSE
-SHA1 00d2b402cae90e31639d9ccf35c37cf97223586f MANIFEST
-SHA1 6bbcafbee27588d2f4a3f8c398d7e310878f04e5 META.yml
-SHA1 358add23d8eb6b8fec6b9f0ae3b10e80e9f568e3 Makefile.PL
-SHA1 45d18f766bdc35907cb39bb53613d5a24efd2a05 README
-SHA1 03ca269599f09172f70c845a5396d925e3c74987 Text.pm
+SHA1 53e23890f220717de028eb8e514f2914ef7a9186 MANIFEST
+SHA1 bc367b5bf37ad1a9b82f8a91c8312e119aa05e8d META.yml
+SHA1 1b56e26ca14b8e4b76c6be499cc14a9b60227251 Makefile.PL
+SHA1 4495bf7cc56fc775bbc5a6989168791c39bb0522 README
+SHA1 0516bb996a89e40a2f73cd1436d2a0c5f2fc1e3f Text.pm
 SHA1 70cf08022a2db9b381f79ad55b274cf7ebb6eaaf examples/ex1.pl
 SHA1 379173c00ef2fa33d9d919c8f4cc0163ad78e1bd examples/ex2.pl
 SHA1 863fa93d32b975836942c718be8b953d19c55724 examples/ex3.pl
+SHA1 e72643a074bc8367c37df62e72d57c3e461a60ef examples/ex4.pl
+SHA1 97537223028fbb4a3bc5876d2391d9213bc7c469 examples/ex5.pl
 SHA1 9b5001bfa9cf8607b3b3935284d9253e0391c9f1 inc/Module/Install.pm
 SHA1 cab0e564f9bdf658535f683aa197157e06d0dcea inc/Module/Install/Base.pm
 SHA1 a1559b5b3b40f68efbbd256f4fef85970891b3ae inc/Module/Install/Can.pm
@@ -34,20 +36,21 @@ SHA1 79f5b4199f622e8b05aac266b0c39f6a85bb303f inc/Module/Install/ReadmeFromPod.p
 SHA1 f8b2ae3386f6ba26c33408968a953d450842eade inc/Module/Install/Win32.pm
 SHA1 f302bc703d76299cff243e5b44cecd61aac27b76 inc/Module/Install/WriteAll.pm
 SHA1 05c2538d24f12cc06180e04a25cc796fa67a4e2a t/Error-Pure-Output-Text/00-use.t
-SHA1 df88c2a98610a1ea8a46bb6b291761e161771557 t/Error-Pure-Output-Text/01-version.t
+SHA1 d34595a2231d0f948fb1d370d40b7a0f61138d75 t/Error-Pure-Output-Text/01-version.t
 SHA1 764f776bc8fc0df5b598be5fdb7899e666396f99 t/Error-Pure-Output-Text/02-pod_coverage.t
 SHA1 024ab9a94b7cb51f09973be994eb1122e91a40ed t/Error-Pure-Output-Text/03-pod.t
 SHA1 d6232b568062812d923a5b2d2efd9145e4fd5637 t/Error-Pure-Output-Text/04-err_bt_pretty.t
-SHA1 c6814efbcb55cc5c9b0d764048483282883f5e06 t/Error-Pure-Output-Text/05-err_line.t
-SHA1 956aa333e6d404f77f735ec13f91a00db51a370d t/Error-Pure-Output-Text/06-err_line_all.t
+SHA1 1a5e5ee53adcb7c9156a868cad0d2b7c5001cfd1 t/Error-Pure-Output-Text/05-err_bt_pretty_rev.t
+SHA1 c6814efbcb55cc5c9b0d764048483282883f5e06 t/Error-Pure-Output-Text/06-err_line.t
+SHA1 956aa333e6d404f77f735ec13f91a00db51a370d t/Error-Pure-Output-Text/07-err_line_all.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
-iQEcBAEBAgAGBQJUNmbyAAoJEAwa+cf4dLBaK/4IAM5bcaRsRq/AKzOq0sYUydP7
-hsCrL8lMuAthzmOlQles2B+TLi/BROlefAwyckoKU4LUyCns3S0C8jH/f2UPqvq4
-6nSQdh91FiyAFtlG2Vsyk3QFCv8Ov3cvtfTj8rLI4b5hEbzgBsgPm2GP96/iad94
-qrxKmV2qMYt505w/gX613aHbP92aVZdZqMnKfdrginlunLeop4F+HI2eqopiQJvx
-CqmiraLNaHm+0qfmN42V79aWv28WCuGHFt1EL5AAsV/3OEVNNYh3uk1fTiXC9JGP
-KVL9i6YMkdZbz8zohL1zgd+DRfw8S1ITTM7ib5uk2X0b4oZLBd4Yobj4afE1jU8=
-=Ek7d
+iQEcBAEBAgAGBQJUNm0nAAoJEAwa+cf4dLBaND8IAI8xvs65/ugXrWAxqUV0VY2o
+2Q45GKlzBZHVPJD1ohjWm1l0sktkqaU2fB+883CH5zStUEVD+3hMAWQwguDfJlX/
+WMk8/uYXg1K/BTc/L95AVxflmtM8gDz4UXkM3zmYNuNbl5Or9sMC9OQ1kuTDl6Sk
+YcIEYvlpbg4fMftMAq2UOXVu7AQs/wwgDIsfhAYgJ/HeCfYQ9sYpKPYyXu7HAoBc
+wC1MDZo0JNErXE3k7PoKkpBhx8i9A9hDpnKQRreMbYkjM4mLgFOuExp5MOLryuAu
+BWFV1BGksN9w7Khirlz+xt3iURtn3rkrEBZ/WXZkcA9D1AYXDebu3yUnX6dz9zw=
+=gLUp
 -----END PGP SIGNATURE-----

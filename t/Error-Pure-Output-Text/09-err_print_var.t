@@ -3,8 +3,8 @@ use strict;
 use warnings;
 
 # Modules.
-use Error::Pure::Output::Text qw(err_bt_pretty_rev);
-use Test::More 'tests' => 6;
+use Error::Pure::Output::Text qw(err_print_var);
+use Test::More 'tests' => 8;
 use Test::NoWarnings;
 
 # Test.
@@ -23,22 +23,20 @@ my @errors = (
 	},
 );
 my $right_ret = <<"END";
-ERROR: Error.
-main  err  ./example.pl  12
+Error.
 END
-my $ret = err_bt_pretty_rev(@errors);
-is($ret, $right_ret, 'Reverse backtrace print in simple error (scalar mode).');
+my $ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in simple error (scalar mode).');
 
 # Test.
 my @right_ret = (
-	'ERROR: Error.',
-	'main  err  ./example.pl  12',
+	'Error.',
 );
-my @ret = err_bt_pretty_rev(@errors);
+my @ret = err_print_var(@errors);
 is_deeply(
 	\@ret,
 	\@right_ret,
-	'Reverse backtrace print in simple error (array mode).'
+	'Print in simple error (array mode).',
 );
 
 # Test.
@@ -64,12 +62,10 @@ is_deeply(
 	},
 );
 $right_ret = <<"END";
-ERROR: Error.
-main  err         ./example.pl  12
-main  eval {...}  ./example.pl  10
+Error.
 END
-$ret = err_bt_pretty_rev(@errors);
-is($ret, $right_ret, 'Reverse backtrace print in complicated error.');
+$ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in complicated error.');
 
 # Test.
 @errors = (
@@ -113,15 +109,10 @@ is($ret, $right_ret, 'Reverse backtrace print in complicated error.');
 	},
 );
 $right_ret = <<"END";
-ERROR: Error 2.
-main  err         ./example.pl  12
-main  eval {...}  ./example.pl  10
-ERROR: Error 1.
-main  err         ./example.pl  12
-main  eval {...}  ./example.pl  10
+Error 2.
 END
-$ret = err_bt_pretty_rev(@errors);
-is($ret, $right_ret, 'Reverse backtrace print in more errors.');
+$ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in more errors.');
 
 # Test.
 @errors = (
@@ -145,12 +136,53 @@ is($ret, $right_ret, 'Reverse backtrace print in more errors.');
 	},
 );
 $right_ret = <<"END";
-ERROR: Error.
+Error.
 first: 0
 second: -1
 third: 1
 fourth
-main  err  ./example.pl  12
 END
-$ret = err_bt_pretty_rev(@errors);
-is($ret, $right_ret, 'Reverse backtrace print in different key=value pairs.');
+$ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in different key=value pairs.');
+
+# Test.
+@errors = (
+	{
+		'msg' => ['Error.', undef],
+		'stack' => [
+			{
+				'args' => '(\'Error.\')',
+				'class' => 'main',
+				'line' => '12',
+				'prog' => './example.pl',
+				'sub' => 'err',	
+			},
+		],
+	},
+);
+$right_ret = <<"END";
+Error.
+END
+$ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in simple error with undef value.');
+
+# Test.
+@errors = (
+	{
+		'msg' => ['Error.'],
+		'stack' => [
+			{
+				'args' => '(\'Error.\')',
+				'class' => 'Class',
+				'line' => '12',
+				'prog' => './example.pl',
+				'sub' => 'err',	
+			},
+		],
+	},
+);
+$right_ret = <<"END";
+Class: Error.
+END
+$ret = err_print_var(@errors);
+is($ret, $right_ret, 'Print in simple error with class name');

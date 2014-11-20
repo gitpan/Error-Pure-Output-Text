@@ -4,6 +4,9 @@ examples/ex2.pl
 examples/ex3.pl
 examples/ex4.pl
 examples/ex5.pl
+examples/ex6.pl
+examples/ex7.pl
+examples/ex8.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
@@ -27,4 +30,6 @@ t/Error-Pure-Output-Text/04-err_bt_pretty.t
 t/Error-Pure-Output-Text/05-err_bt_pretty_rev.t
 t/Error-Pure-Output-Text/06-err_line.t
 t/Error-Pure-Output-Text/07-err_line_all.t
+t/Error-Pure-Output-Text/08-err_print.t
+t/Error-Pure-Output-Text/09-err_print_var.t
 Text.pm
